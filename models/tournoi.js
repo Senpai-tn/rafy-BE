@@ -10,6 +10,16 @@ const tournoiSchema = new Schema({
   endDate: { type: Date, default: null },
   cree: { type: Date, default: Date.now },
   supprime: { type: Date, default: null },
+  staff: { type: Schema.Types.ObjectId, ref: 'users' },
+  classement: {
+    type: [
+      {
+        equipe: { type: Schema.Types.ObjectId, ref: 'equipes' },
+        points: Number,
+      },
+    ],
+    default: [],
+  },
 })
 
 const Tournoi = model('tournois', tournoiSchema)

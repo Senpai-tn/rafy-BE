@@ -4,8 +4,8 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
   try {
-    const {} = req.body
-    const equipe = new Equipe({})
+    const { nom, listeJoueurs } = req.body
+    const equipe = new Equipe({ nom, listeJoueurs })
     equipe.save().then((savedequipe) => {
       res.send(savedequipe)
     })

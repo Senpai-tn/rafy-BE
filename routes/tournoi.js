@@ -4,8 +4,8 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
   try {
-    const { libelle, type, startDate, endtDate } = req.body
-    const tournoi = new Tournoi({ libelle, type, startDate, endtDate })
+    const { libelle, type, startDate, endDate, staff } = req.body
+    const tournoi = new Tournoi({ libelle, type, startDate, endDate, staff })
     tournoi.save().then((savedTournoi) => {
       res.send(savedTournoi)
     })
@@ -16,8 +16,17 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    const { id, libelle, type, supprime, listeMatch, startDate, endDate } =
-      req.body
+    const {
+      id,
+      libelle,
+      type,
+      supprime,
+      listeMatch,
+      startDate,
+      endDate,
+      staff,
+      classement,
+    } = req.body
     const tournoi = await Tournoi.findById(id)
     if (tournoi) {
       Object.assign(tournoi, {
@@ -27,6 +36,8 @@ router.put('/', async (req, res) => {
         listeMatch: listeMatch ? listeMatch : tournoi.listeMatch,
         startDate: startDate ? startDate : tournoi.startDate,
         endDate: endDate ? endDate : tournoi.endDate,
+        staff: staff ? staff : tournoi.staff,
+        classement: classement ? classement : tournoi.classement,
       })
       tournoi.save().then((savedTournoi) => {
         res.send(savedTournoi)
@@ -40,7 +51,7 @@ router.put('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { filter } = req.query
-    const tournois = await Tournoi.find(JSON.parse(filter))
+    const tournois = await Tournoi.find(JSON.parse(filter)).populate('staff')
     res.send(tournois)
   } catch (error) {
     res.status(500).send(error)
