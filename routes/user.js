@@ -37,12 +37,11 @@ router.post('/login', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    const { id, nom, prenom, email, motPasse, role, supprime } = req.body
+    const { id, username, email, motPasse, role, supprime } = req.body
     const user = await User.findById(id)
     if (user) {
       Object.assign(user, {
-        nom: nom ? nom : user.nom,
-        prenom: prenom ? prenom : user.prenom,
+        username: username ? username : user.username,
         email: email ? email : user.email,
         motPasse: motPasse ? motPasse : user.motPasse,
         role: role ? role : user.role,

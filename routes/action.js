@@ -5,7 +5,6 @@ const router = express.Router()
 router.post('/', async (req, res) => {
   try {
     const { match, type, temps, score } = req.body
-
     const action = new Action({ match, type, temps, score })
     action.save().then(async (savedaction) => {
       const m = await Match.findById(match).populate('listeEquipes')
